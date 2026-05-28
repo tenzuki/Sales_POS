@@ -297,12 +297,4 @@ This project applies practical client-side security controls appropriate for a F
 - Planned enhancement: enforce HTTPS-only API base URL in production.
 - Planned enhancement: add SSL pinning for higher-assurance transport security.
 
-## 15. Known Limitations / Future Improvements
-- Token persistence is in-memory only; can be extended via secure local storage.
-- No offline-first caching strategy yet.
-- No pagination for large datasets.
-- Product inventory/stock-level field is not currently modeled in this client.
-- Expand automated tests:
-  - API client unit tests
-  - Widget tests for invoice creation flow
-  - Error state regression tests
+
