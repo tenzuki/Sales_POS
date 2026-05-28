@@ -224,56 +224,38 @@ Error handling is implemented at three levels:
 - Mobile-friendly forms and constrained login width for readability on larger screens
 
 ## Screens
-### analytics_30_days.jpg
-![analytics_30_days.jpg](assets/screens/analytics_30_days.jpg)
-
-### analytics_7_days.jpg
-![analytics_7_days.jpg](assets/screens/analytics_7_days.jpg)
-
-### create_invoice.jpg
-![create_invoice.jpg](assets/screens/create_invoice.jpg)
-
-### customer_details.jpg
-![customer_details.jpg](assets/screens/customer_details.jpg)
-
-### customer_list.jpg
-![customer_list.jpg](assets/screens/customer_list.jpg)
-
-### dashboard.jpg
-![dashboard.jpg](assets/screens/dashboard.jpg)
-
-### invoice.jpg
-![invoice.jpg](assets/screens/invoice.jpg)
-
-### invoice_bill.jpg
-![invoice_bill.jpg](assets/screens/invoice_bill.jpg)
-
-### invoice_list.jpg
-![invoice_list.jpg](assets/screens/invoice_list.jpg)
-
-### invoice_volume.jpg
-![invoice_volume.jpg](assets/screens/invoice_volume.jpg)
-
-### login.jpg
-![login.jpg](assets/screens/login.jpg)
-
-### product_details.jpg
-![product_details.jpg](assets/screens/product_details.jpg)
-
-### product_list.jpg
-![product_list.jpg](assets/screens/product_list.jpg)
-
-### sales_volume.jpg
-![sales_volume.jpg](assets/screens/sales_volume.jpg)
-
-### select_customer.jpg
-![select_customer.jpg](assets/screens/select_customer.jpg)
-
-### select_product.jpg
-![select_product.jpg](assets/screens/select_product.jpg)
-
-### select_product_quantity.jpg
-![select_product_quantity.jpg](assets/screens/select_product_quantity.jpg)
+<table>
+  <tr>
+    <td align="center"><strong>analytics_30_days.jpg</strong><br><img src="assets/screens/analytics_30_days.jpg" width="240" alt="analytics_30_days.jpg"></td>
+    <td align="center"><strong>analytics_7_days.jpg</strong><br><img src="assets/screens/analytics_7_days.jpg" width="240" alt="analytics_7_days.jpg"></td>
+    <td align="center"><strong>create_invoice.jpg</strong><br><img src="assets/screens/create_invoice.jpg" width="240" alt="create_invoice.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>customer_details.jpg</strong><br><img src="assets/screens/customer_details.jpg" width="240" alt="customer_details.jpg"></td>
+    <td align="center"><strong>customer_list.jpg</strong><br><img src="assets/screens/customer_list.jpg" width="240" alt="customer_list.jpg"></td>
+    <td align="center"><strong>dashboard.jpg</strong><br><img src="assets/screens/dashboard.jpg" width="240" alt="dashboard.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>invoice.jpg</strong><br><img src="assets/screens/invoice.jpg" width="240" alt="invoice.jpg"></td>
+    <td align="center"><strong>invoice_bill.jpg</strong><br><img src="assets/screens/invoice_bill.jpg" width="240" alt="invoice_bill.jpg"></td>
+    <td align="center"><strong>invoice_list.jpg</strong><br><img src="assets/screens/invoice_list.jpg" width="240" alt="invoice_list.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>invoice_volume.jpg</strong><br><img src="assets/screens/invoice_volume.jpg" width="240" alt="invoice_volume.jpg"></td>
+    <td align="center"><strong>login.jpg</strong><br><img src="assets/screens/login.jpg" width="240" alt="login.jpg"></td>
+    <td align="center"><strong>product_details.jpg</strong><br><img src="assets/screens/product_details.jpg" width="240" alt="product_details.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>product_list.jpg</strong><br><img src="assets/screens/product_list.jpg" width="240" alt="product_list.jpg"></td>
+    <td align="center"><strong>sales_volume.jpg</strong><br><img src="assets/screens/sales_volume.jpg" width="240" alt="sales_volume.jpg"></td>
+    <td align="center"><strong>select_customer.jpg</strong><br><img src="assets/screens/select_customer.jpg" width="240" alt="select_customer.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>select_product.jpg</strong><br><img src="assets/screens/select_product.jpg" width="240" alt="select_product.jpg"></td>
+    <td align="center"><strong>select_product_quantity.jpg</strong><br><img src="assets/screens/select_product_quantity.jpg" width="240" alt="select_product_quantity.jpg"></td>
+    <td></td>
+  </tr>
+</table>
 
 ## 11. Setup & Run
 ### Prerequisites
