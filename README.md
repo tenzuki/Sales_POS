@@ -20,6 +20,7 @@ This project is interview-focused and demonstrates:
 - [8. Core Code Walkthrough](#8-core-code-walkthrough)
 - [9. Error Handling Strategy](#9-error-handling-strategy)
 - [10. UI/UX Notes](#10-uiux-notes)
+- [Screens](#screens)
 - [11. Setup & Run](#11-setup--run)
 - [12. Build for Release](#12-build-for-release)
 - [13. Interview Evaluation Mapping](#13-interview-evaluation-mapping)
@@ -221,6 +222,58 @@ Error handling is implemented at three levels:
   - inline error blocks + retry CTA
   - success/failure snackbars
 - Mobile-friendly forms and constrained login width for readability on larger screens
+
+## Screens
+### analytics_30_days.jpg
+![analytics_30_days.jpg](assets/screens/analytics_30_days.jpg)
+
+### analytics_7_days.jpg
+![analytics_7_days.jpg](assets/screens/analytics_7_days.jpg)
+
+### create_invoice.jpg
+![create_invoice.jpg](assets/screens/create_invoice.jpg)
+
+### customer_details.jpg
+![customer_details.jpg](assets/screens/customer_details.jpg)
+
+### customer_list.jpg
+![customer_list.jpg](assets/screens/customer_list.jpg)
+
+### dashboard.jpg
+![dashboard.jpg](assets/screens/dashboard.jpg)
+
+### invoice.jpg
+![invoice.jpg](assets/screens/invoice.jpg)
+
+### invoice_bill.jpg
+![invoice_bill.jpg](assets/screens/invoice_bill.jpg)
+
+### invoice_list.jpg
+![invoice_list.jpg](assets/screens/invoice_list.jpg)
+
+### invoice_volume.jpg
+![invoice_volume.jpg](assets/screens/invoice_volume.jpg)
+
+### login.jpg
+![login.jpg](assets/screens/login.jpg)
+
+### product_details.jpg
+![product_details.jpg](assets/screens/product_details.jpg)
+
+### product_list.jpg
+![product_list.jpg](assets/screens/product_list.jpg)
+
+### sales_volume.jpg
+![sales_volume.jpg](assets/screens/sales_volume.jpg)
+
+### select_customer.jpg
+![select_customer.jpg](assets/screens/select_customer.jpg)
+
+### select_product.jpg
+![select_product.jpg](assets/screens/select_product.jpg)
+
+### select_product_quantity.jpg
+![select_product_quantity.jpg](assets/screens/select_product_quantity.jpg)
 
 ## 11. Setup & Run
 ### Prerequisites
