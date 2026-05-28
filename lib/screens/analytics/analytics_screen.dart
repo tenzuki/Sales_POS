@@ -47,6 +47,55 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     });
   }
 
+  Map<String, String> _getLocalInvoiceDateTime(VanSaleInvoice inv) {
+    String datePart = inv.inDate;
+    if (datePart.contains('-') && datePart.indexOf('-') == 2) {
+      final parts = datePart.split('-');
+      if (parts.length == 3) {
+        datePart = '${parts[2]}-${parts[1]}-${parts[0]}';
+      }
+    }
+    String timePart = inv.inTime.isNotEmpty ? inv.inTime : '12:00:00';
+    if (timePart.toLowerCase().contains('am') || timePart.toLowerCase().contains('pm')) {
+      try {
+        DateTime tempDate;
+        if (timePart.split(':').length == 3) {
+          tempDate = DateFormat('hh:mm:ss a').parse(timePart);
+        } else {
+          tempDate = DateFormat('hh:mm a').parse(timePart);
+        }
+        timePart = DateFormat('HH:mm:ss').format(tempDate);
+      } catch (_) {
+        try {
+          final cleanTime = timePart.replaceAll(RegExp(r'[a-zA-Z\s]'), '');
+          final parts = cleanTime.split(':');
+          int hour = int.parse(parts[0]);
+          int minute = int.parse(parts[1]);
+          int second = parts.length > 2 ? int.parse(parts[2]) : 0;
+          if (timePart.toLowerCase().contains('pm') && hour < 12) hour += 12;
+          if (timePart.toLowerCase().contains('am') && hour == 12) hour = 0;
+          timePart = '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')}';
+        } catch (__) {
+          timePart = '12:00:00';
+        }
+      }
+    }
+    try {
+      final utcDateTime = DateTime.tryParse('${datePart}T${timePart}Z');
+      if (utcDateTime != null) {
+        final localDateTime = utcDateTime.toLocal();
+        return {
+          'date': DateFormat('yyyy-MM-dd').format(localDateTime),
+          'time': DateFormat('hh:mm a').format(localDateTime),
+        };
+      }
+    } catch (_) {}
+    return {
+      'date': inv.inDate,
+      'time': inv.inTime,
+    };
+  }
+
   List<VanSaleInvoice> _getPeriodInvoices(List<VanSaleInvoice> allInvoices) {
     final int daysCount = _selectedPeriod == '30 Days' ? 30 : 7;
     final Set<String> targetDates = {};
@@ -57,7 +106,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     }
 
     final periodRealInvoices = allInvoices.where((inv) {
-      return targetDates.contains(inv.inDate);
+      final localDate = _getLocalInvoiceDateTime(inv)['date']!;
+      return targetDates.contains(localDate) || targetDates.contains(inv.inDate);
     }).toList();
 
     if (periodRealInvoices.isNotEmpty) {
@@ -130,7 +180,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     // Group invoices by date
     final Map<String, double> dailySums = {};
     for (var inv in periodInvoices) {
-      dailySums[inv.inDate] = (dailySums[inv.inDate] ?? 0.0) + inv.grandTotal;
+      final localDate = _getLocalInvoiceDateTime(inv)['date']!;
+      dailySums[localDate] = (dailySums[localDate] ?? 0.0) + inv.grandTotal;
     }
 
     final int daysCount = _selectedPeriod == '30 Days' ? 30 : 7;
@@ -785,6 +836,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     itemBuilder: (context, idx) {
                       final inv = filtered[idx];
                       final isCredit = inv.billMode.toUpperCase() == 'CREDIT';
+                      final localDt = _getLocalInvoiceDateTime(inv);
                       
                       return Container(
                         margin: const EdgeInsets.only(bottom: 10),
@@ -812,7 +864,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  '${inv.inDate} | ${inv.inTime}',
+                                  '${localDt['date']} | ${localDt['time']}',
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
                                     color: onSurface.withOpacity(0.5),
@@ -998,6 +1050,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                         itemBuilder: (context, idx) {
                           final inv = periodInvoices[idx];
                           final isCredit = inv.billMode.toUpperCase() == 'CREDIT';
+                          final localDt = _getLocalInvoiceDateTime(inv);
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
@@ -1029,7 +1082,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        'Invoice: ${inv.invoiceNo} | ${inv.inDate}',
+                                        'Invoice: ${inv.invoiceNo} | ${localDt['date']}',
                                         style: GoogleFonts.inter(
                                           fontSize: 10,
                                           color: onSurface.withOpacity(0.5),

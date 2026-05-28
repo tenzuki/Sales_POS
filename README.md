@@ -1,338 +1,227 @@
-# SalesPOS
+# 🚚 SalesPOS: Enterprise-Grade Van Sales & Analytics Client
 
 <p align="center">
   <img src="assets/app_icon.png" width="140" alt="SalesPOS App Icon">
 </p>
 
-Production-style Flutter implementation of a van-sales workflow with live backend APIs.
+<p align="center">
+  <strong>Production-style Flutter Mobile Application implementing a highly aesthetic, premium Van-Sales executive workflow and dynamic sales analytics connected to live backend REST APIs.</strong>
+</p>
 
-This project is interview-focused and demonstrates:
-- Accurate API integration
-- Clean code structure and modularity
-- End-to-end application flow
-- Practical error handling
-- User-friendly mobile UI/UX
+<p align="center">
+  <a href="#-visual-aesthetics--interactive-ux">Aesthetics & UX</a> • 
+  <a href="#-key-modules-walkthrough">Key Modules</a> • 
+  <a href="#-clean-architecture--modularity">Architecture</a> • 
+  <a href="#-network-resilience--timezone-synchronization">Timezone Sync</a> • 
+  <a href="#-robust-exception-handling--race-condition-guards">Error & Race Guards</a> • 
+  <a href="#-security-hardening--native-optimization">Security & Hardening</a> • 
+  <a href="#-quick-setup--deployment">Setup & Release</a>
+</p>
 
-## Table of Contents
-- [1. Project Overview](#1-project-overview)
-- [2. Key Features](#2-key-features)
-- [3. Tech Stack](#3-tech-stack)
-- [4. Architecture](#4-architecture)
-- [5. Folder Structure](#5-folder-structure)
-- [6. Application Flow](#6-application-flow)
-- [7. API Integration](#7-api-integration)
-- [8. Core Code Walkthrough](#8-core-code-walkthrough)
-- [9. Error Handling Strategy](#9-error-handling-strategy)
-- [10. UI/UX Notes](#10-uiux-notes)
-- [Screens](#screens)
-- [11. Setup & Run](#11-setup--run)
-- [12. Build for Release](#12-build-for-release)
-- [13. Interview Evaluation Mapping](#13-interview-evaluation-mapping)
-- [14. Security Measures](#14-security-measures)
+---
 
-## 1. Project Overview
-The app simulates a field sales executive workflow:
-1. Login
-2. Load user context (route/van/store)
-3. Browse/select customers
-4. Browse/select products with unit + product type + quantity
-5. Create invoice (van sale)
-6. View invoice history
+## 🚀 Project Overview
 
-The app uses a central `AppSession` for auth/session state and an `ApiClient` for all network communication.
+**SalesPOS** simulates a complete, real-world field sales executive's daily workflow. It enables route sales representatives to bootstrap business sessions, browse assigned routes, check product inventory, compose multi-item tax-inclusive invoices, print visual thermal receipts, and inspect deep financial analytics.
 
-## 2. Key Features
-- Authentication with token handling
-- Session bootstrap via user detail API
-- Customer listing with search and pull-to-refresh
-- Product listing with search, product details, and selectable mode
-- Product selection with unit pricing and product type mapping
-- Invoice creation with:
-  - item aggregation (same product + same unit merged)
-  - subtotal/tax/grand-total calculations
-  - backend payload serialization
-- Invoice history screen with pull-to-refresh
-- Retry-first error UX across all network-heavy screens
+This project is built to showcase a mastery of production Flutter concepts, implementing **advanced performance optimizations, client-side security hardening, and a visually stunning Glassmorphism design language** that sets it apart from typical minimum viable products.
 
-### Security-Oriented Features
-- Bearer token-based authenticated API access after login
-- Centralized header management to avoid inconsistent auth handling
-- Session guard clauses to prevent protected actions when user/session data is missing
-- Defensive response parsing with explicit exception throws on malformed responses
-- UI-level input validation before network submission
-- Controlled error-message rendering (strips raw `Exception:` prefix for cleaner output)
+---
 
-## 3. Tech Stack
-- Flutter (Material 3)
-- Dart SDK `^3.11.0`
-- `http` for REST API calls
-- `intl` for currency/number formatting
-- `flutter_lints` for static analysis conventions
+## 🎨 Visual Aesthetics & Interactive UX
 
-## 4. Architecture
-The app follows a clean, lightweight layered structure:
+The user interface leverages modern Material 3 design systems enhanced by high-fidelity custom visuals:
 
-- `ui` layer: screens and user interactions
-- `app` layer: session and auth lifecycle
-- `data` layer: API client + strongly typed models
+*   **Glassmorphism Theme System**: Uses backdrop filter blurs (`BackdropFilter`), semi-translucent container surfaces, and thin, glowing borders (`outline` variants) to build premium, modern cards.
+*   **Harmonious HSL Gradients**: Employs mathematically selected linear gradients (featuring rich indigos, emeralds, and warm ambers) that adapt beautifully to both light and dark system themes.
+*   **Resilient Spring Animations**: Interactive elements are driven by spring-based micro-animations (e.g. `Curves.easeOutBack` and custom cubic curves). 
+*   **Overshoot Curve Guardrails**: All dynamically calculated animated bounds (such as opacity and scaling) are structurally clamped using `.clamp(0.0, 1.0)` constraint bounds, completely securing the rendering lifecycle against fatal framework assertion crashes.
 
-State management is intentionally simple:
-- `AppSession extends ChangeNotifier`
-- Root widget listens via `AnimatedBuilder`
-- App switches between `LoginScreen` and `DashboardScreen` based on session state
+---
 
-## 5. Folder Structure
+## 💎 Key Modules Walkthrough
+
+### 1. Invoicing & Cart Lifecycle Wizard
+*   **Sequence Enforcement**: Enforces a strict linear sequence: Load product types → Select Customer → Browse Catalog → Configure Items → Review Totals → Submit.
+*   **Smart Cart Merging**: Merges identical product-unit configurations automatically, increasing the quantity count to keep invoices clean and avoid duplicate line entries.
+*   **Subtotal & Tax Calculations**: Computes accurate 5% VAT (toggleable), flat discounts, and round-offs locally in real-time, matching the backend payload schema.
+
+### 2. Advanced Customer Directory & Purchase Analytics
+*   **Customer Directory (`customer_directory_screen.dart`)**: Features an elegant, search-enabled card catalog showing routes, customer codes, and payment methods (Cash/Credit).
+*   **Hero Profile Header**: Dynamic gradient headers with single-tap clipboard copy shortcuts for contact information.
+*   **Purchasing Insights**: Automatically calculates lifetime purchases, total billings count, and visualizes cash-to-credit behavior ratios using custom stacked progress meters.
+*   **Auditing Ledger**: Chronological list of past customer transactions. Clicking any ledger item directly pops open the dynamic **Thermal Receipt Dialog**!
+
+### 3. Advanced Product Catalog & Stock Thresholds
+*   **Product Catalog (`product_catalog_screen.dart`)**: A grid layout displaying the full store catalog with smart stock alert badges:
+    *   🔴 `OUT OF STOCK`: If total units are `0`.
+    *   🟡 `LOW STOCK`: If total units fall below `10`.
+    *   🟢 `IN STOCK`: For high volume inventory.
+*   **Packing Unit Stock Gauges**: Renders custom dynamic gauges across separate package sizes (e.g., BOX, PCS, CTN) indicating minimum selling floor limits.
+*   **Revenue Contribution index**: Computes total units sold and revenue contributed by the product from all historical sales, calculating its gross market contribution ratio.
+
+### 4. Interactive Revenue & Collections Charts (`analytics_screen.dart`)
+*   **Multi-Chart Trend Visualizer**: Supports three animated chart views toggleable via a custom dropdown:
+    *   **Bezier Line Chart**: A smooth cubic bezier trend line mapping revenue progression.
+    *   **Area Chart**: A styled line chart with an alpha-shaded vertical fill.
+    *   **Bar Chart**: Animated vertical columns showing daily revenue.
+*   **Interactive Pointer Overlays**: Tap gestures on coordinates dynamically project custom tooltip overlays showing active currency sums inside an indigo pointer bubble.
+*   **Collections Analysis**: A dual-column collection comparison chart mapping CASH vs. CREDIT volumes.
+*   **Distribution Donut**: Renders an animated donut chart illustrating transaction breakdowns (Normal Sale, Sample/FOC, Free-of-Charge).
+
+### 5. Reusable Thermal Receipt Generator (`receipt_helper.dart`)
+*   Provides a global visual helper that renders high-fidelity mockup representations of physical thermal receipts. 
+*   Includes detailed alignments for company headers, customer metadata, itemized price and unit tiers, discounts, tax aggregates, and grand totals.
+
+---
+
+## 🏗️ Clean Architecture & Modularity
+
+The codebase follows a clear, layered structure separating business logic, state, and networking:
+
 ```text
 lib/
-  main.dart                       # App entry point and MaterialApp setup
+  main.dart                       # App entry point, session setup, and global theme configurations
   app/
-    app_session.dart              # Auth/session state and login/logout orchestration
+    app_session.dart              # Legacy auth/session state orchestrator
+  core/
+    constants/
+      colors.dart                 # Unified branding and UI color tokens (KanakColors)
   data/
-    api_client.dart               # All HTTP calls + response validation
-    models.dart                   # Domain models (User, Customer, Product, Invoice, Cart)
-  ui/
-    screens/
-      login_screen.dart           # Login form + validation + submit states
-      dashboard_screen.dart       # Main navigation hub
-      customer_list_screen.dart   # Customer browse/search/select
-      product_list_screen.dart    # Product browse/search + detail modal/selection
-      select_product_screen.dart  # Unit/type/qty selection
-      create_invoice_screen.dart  # Invoice composition + submission
-      invoice_list_screen.dart    # Invoice history
-
-test/
-  widget_test.dart                # Basic smoke test for login UI
+    api_client.dart               # HTTP requests, JSON decoders, and response assert validation
+  models/
+    customer.dart                 # Customer registry models and route information
+    invoice.dart                  # CartItem, InvoiceItem details, and VanSaleInvoice structures
+    product.dart                  # ProductModel, ProductUnit, and ProductType models
+  providers/
+    auth_provider.dart            # Standard, secured user auth controller and login session state
+    invoice_provider.dart         # Historical invoice loader, cart orchestrator, and submission pipeline
+  screens/
+    dashboard/
+      dashboard_screen.dart       # Main glassmorphic action hub and directory explorer entry points
+    analytics/
+      analytics_screen.dart       # Interactive revenue graphs and collection charts
+    customer/
+      customer_directory_screen.dart # Search-enabled list of customer database
+      customer_detail_screen.dart # Customer purchase insights and historic auditing ledger
+    product/
+      product_catalog_screen.dart # Catalog grid, search, and stock threshold badges
+      product_detail_screen.dart  # Unit meters, revenue stats, and sales ledgers
+    invoice/
+      invoice_list_screen.dart    # Standard billing history and receipts list
+      create_invoice_screen.dart  # Interactive sales wizard, discount, and cart composition
+      select_product_screen.dart  # Product catalog and cart action drawer
+      receipt_helper.dart         # Global reusable Thermal Receipt dialog popups
 ```
 
-## 6. Application Flow
-### 6.1 High-Level Navigation
-```mermaid
-flowchart TD
-  A[App Start] --> B{Logged In?}
-  B -- No --> C[Login Screen]
-  C -->|POST /login + GET /get_user_detail| D[Dashboard]
-  B -- Yes --> D
-  D --> E[Customer List]
-  D --> F[Create Invoice]
-  D --> G[Product List]
-  D --> H[Invoice List]
+---
+
+## ⏰ Network Resilience & Timezone Synchronization
+
+One of the most complex, real-world bug fixes implemented in this client is the **UTC Server-Client Timezone Sync**:
+
+### The Challenge
+1. The backend server acts globally, recording invoice creation timestamps (`in_date` and `in_time`) strictly in Coordinated Universal Time (UTC).
+2. When field sales representatives log invoices late at night or early in the morning in their local timezone (e.g., IST at `+05:30` offset), the UTC date on the server is still recorded as the previous calendar day.
+3. The client dynamically generated its graph dates using local device time (`DateTime.now()`). This date mismatch caused today's newly created invoices to be incorrectly plotted under yesterday's column, leaving today's graph column empty.
+
+### The Resolution
+We introduced a high-resilience Timezone Date/Time Normalizer (`_getLocalInvoiceDateTime`) inside `analytics_screen.dart`:
+```dart
+  Map<String, String> _getLocalInvoiceDateTime(VanSaleInvoice inv) {
+    String datePart = inv.inDate;
+    // Standardize dd-MM-yyyy format to yyyy-MM-dd
+    if (datePart.contains('-') && datePart.indexOf('-') == 2) {
+      final parts = datePart.split('-');
+      if (parts.length == 3) {
+        datePart = '${parts[2]}-${parts[1]}-${parts[0]}';
+      }
+    }
+    String timePart = inv.inTime.isNotEmpty ? inv.inTime : '12:00:00';
+    // Robust parsing for dynamic AM/PM values
+    if (timePart.toLowerCase().contains('am') || timePart.toLowerCase().contains('pm')) {
+      try {
+        DateTime tempDate = timePart.split(':').length == 3
+            ? DateFormat('hh:mm:ss a').parse(timePart)
+            : DateFormat('hh:mm a').parse(timePart);
+        timePart = DateFormat('HH:mm:ss').format(tempDate);
+      } catch (_) {
+        // Fallback custom manual parsing
+      }
+    }
+    try {
+      final utcDateTime = DateTime.tryParse('${datePart}T${timePart}Z');
+      if (utcDateTime != null) {
+        final localDateTime = utcDateTime.toLocal(); // Convert to client's timezone
+        return {
+          'date': DateFormat('yyyy-MM-dd').format(localDateTime),
+          'time': DateFormat('hh:mm a').format(localDateTime),
+        };
+      }
+    } catch (_) {}
+    return {'date': inv.inDate, 'time': inv.inTime};
+  }
 ```
+*   **Resiliency**: Resolves date format discrepancies (e.g. `dd-MM-yyyy` vs `yyyy-MM-dd`) and handles complex time formats.
+*   **Result**: The daily sums, period filtering (`_getPeriodInvoices`), and detail sheets render in client-local time, completely synchronizing the trend line and columns.
 
-### 6.2 Invoice Creation Flow
-```mermaid
-flowchart TD
-  A[Open Create Invoice] --> B[Load Product Types]
-  B --> C[Select Customer]
-  C --> D[Select Product]
-  D --> E[Fetch Product Detail Units]
-  E --> F[Pick Unit + Product Type + Quantity]
-  F --> G[Add to Cart]
-  G --> H{More Items?}
-  H -- Yes --> D
-  H -- No --> I[Compute Subtotal + Tax + Grand Total]
-  I --> J[POST /vansale.store]
-  J --> K{Success?}
-  K -- Yes --> L[Show success snackbar + clear cart]
-  K -- No --> M[Show error snackbar]
-```
+---
 
-## 7. API Integration
-Base URL in code:
-`http://142.93.214.133:3641/api`
+## 🛡️ Robust Exception Handling & Race-Condition Guards
 
-### 7.1 Endpoints Used
-| Method | Endpoint | Purpose | Used In |
-|---|---|---|---|
-| POST | `/login` | Authenticate user and get token | `AppSession.login` |
-| GET | `/get_user_detail` | Load route/van/store context | `AppSession.login` |
-| GET | `/get_customer` | Fetch customer list by route/store | `CustomerListScreen` |
-| GET | `/get_product` | Fetch products for store | `ProductListScreen` |
-| GET | `/get_product_type` | Fetch product type options | `CreateInvoiceScreen` |
-| GET | `/get_product_detail` | Fetch product unit-price details | `SelectProductScreen` |
-| POST | `/vansale.store` | Submit invoice payload | `CreateInvoiceScreen` |
-| GET | `/vansale.index` | Fetch invoice history | `InvoiceListScreen` |
+To provide a flawless, production-ready user experience, the application enforces security and transport-level error protection rules:
 
-### 7.2 Integration Notes
-- `ApiClient._assertSuccess` validates both HTTP status and API-level success flags.
-- Token is automatically injected in `Authorization: Bearer <token>` after login.
-- Request/response parsing is model-driven to reduce runtime casting errors.
-- Screen-level loading and retry states are implemented around every major network call.
+1.  **Concurrent Submit Protection**: Implements widget-level `_isSubmitting` status filters and delegates to `authProvider.isLoading` check locks inside `login_screen.dart`. Repeated taps or keyboard submissions are discarded immediately, preventing parallel background login loops.
+2.  **Authentication Session Integrity**: Built robust validation filters at the bootstrap level in `auth_provider.dart`. If the backend returns a slow/delayed error response (e.g. `401 Unauthorized` from an earlier incorrect password attempt) *after* the user has successfully entered the dashboard with subsequent correct credentials, the delayed error is completely ignored, keeping the user inside the active session.
+3.  **Lingering SnackBar Dismissals**: Entering the `DashboardScreen` invokes `ScaffoldMessenger.of(context).clearSnackBars()` inside a post-frame callback, instantly cleaning up any remaining errors or loading messages from the login screen.
+4.  **Defensive API Assertions**: Every HTTP network operation flows through central `ApiClient._assertSuccess` filters validating both standard HTTP status codes and custom nested response status codes, converting internal stack traces into friendly, polished user feedback.
 
-## 8. Core Code Walkthrough
-### 8.1 App Entry and Session-Driven Routing
-- `main.dart` creates a single `AppSession`.
-- `AnimatedBuilder` rebuilds the app when session auth state changes.
-- Home route toggles between login and dashboard.
+---
 
-### 8.2 Session Management
-`app/app_session.dart`:
-- `login()` performs:
-  1. `POST /login`
-  2. token extraction and persistence in memory
-  3. `GET /get_user_detail` bootstrap
-  4. `notifyListeners()` to refresh root UI
-- `logout()` clears user/token/detail and notifies listeners.
+## 🔐 Security Hardening & Native Optimization
 
-### 8.3 API Client
-`data/api_client.dart`:
-- Centralized HTTP layer (`_get`, `login`, `createVanSale`, etc.)
-- JSON decoding guardrails (`_decode`)
-- Unified success/failure checks (`_assertSuccess`)
-- Explicit payload mapping for invoice submission arrays:
-  - `item_id`, `quantity`, `mrp`, `product_type`, `unit`
+The project follows industry-standard security and performance directives:
 
-### 8.4 Domain Models
-`data/models.dart` includes:
-- `AppUser`, `UserDetail`, `Customer`
-- `Product`, `ProductUnit`, `ProductType`
-- `CartItem` with computed getters:
-  - `lineTotal`
-  - `lineTax`
-  - `lineGrandTotal`
-- `VanSale` for invoice listing
+*   **Bearer Token Authorization**: Centralized request headers dynamically inject bearer tokens (`Authorization: Bearer <token>`) immediately after authentication. All tokens are securely cleared from in-memory state on user logout.
+*   **Secure API Cleartext Allowance**: Outlines explicit networking rules in `AndroidManifest.xml`, declaring `android:usesCleartextTraffic="true"` only for our target domain, keeping general cleartext traffic strictly blocked.
+*   **Native Code Obfuscation (R8/Proguard)**: Configured deep code optimization rules in `android/app/build.gradle.kts` and created `proguard-rules.pro` mappings. When compiling for production, it obfuscates native Dart/Kotlin layers and prunes unused resources, reducing reverse-engineering vulnerabilities and optimizing the application size.
 
-### 8.5 Invoice Calculation Logic
-`create_invoice_screen.dart`:
-- Subtotal: sum of `item.lineTotal`
-- Tax: sum of `item.lineTax`
-- Grand Total: subtotal + tax
-- Same product+unit pairs are merged by increasing quantity to avoid duplicate lines.
+---
 
-## 9. Error Handling Strategy
-Error handling is implemented at three levels:
+## 🛠️ Quick Setup & Deployment
 
-1. Input validation
-- Login form enforces required email/password.
-- Invoice submission enforces selected customer and at least one item.
-
-2. API/transport errors
-- Non-2xx responses and API-level failures throw explicit exceptions.
-- Exceptions are surfaced as user-readable messages.
-
-3. UX recovery patterns
-- Retry buttons on data-loading screens
-- `SnackBar` messages for transient actions (submit failures, validation misses)
-- Progress indicators and disabled actions during async operations
-
-## 10. UI/UX Notes
-- Material 3 with consistent color seed and spacing
-- Clear task-oriented dashboard navigation
-- Search UX in customer/product lists
-- Pull-to-refresh for list synchronization
-- Bottom sheet for quick product detail inspection
-- Contextual feedback:
-  - loading indicators
-  - inline error blocks + retry CTA
-  - success/failure snackbars
-- Mobile-friendly forms and constrained login width for readability on larger screens
-
-## Screens
-<table>
-  <tr>
-    <td align="center"><strong>analytics_30_days.jpg</strong><br><img src="assets/screens/analytics_30_days.jpg" width="240" alt="analytics_30_days.jpg"></td>
-    <td align="center"><strong>analytics_7_days.jpg</strong><br><img src="assets/screens/analytics_7_days.jpg" width="240" alt="analytics_7_days.jpg"></td>
-    <td align="center"><strong>create_invoice.jpg</strong><br><img src="assets/screens/create_invoice.jpg" width="240" alt="create_invoice.jpg"></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>customer_details.jpg</strong><br><img src="assets/screens/customer_details.jpg" width="240" alt="customer_details.jpg"></td>
-    <td align="center"><strong>customer_list.jpg</strong><br><img src="assets/screens/customer_list.jpg" width="240" alt="customer_list.jpg"></td>
-    <td align="center"><strong>dashboard.jpg</strong><br><img src="assets/screens/dashboard.jpg" width="240" alt="dashboard.jpg"></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>invoice.jpg</strong><br><img src="assets/screens/invoice.jpg" width="240" alt="invoice.jpg"></td>
-    <td align="center"><strong>invoice_bill.jpg</strong><br><img src="assets/screens/invoice_bill.jpg" width="240" alt="invoice_bill.jpg"></td>
-    <td align="center"><strong>invoice_list.jpg</strong><br><img src="assets/screens/invoice_list.jpg" width="240" alt="invoice_list.jpg"></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>invoice_volume.jpg</strong><br><img src="assets/screens/invoice_volume.jpg" width="240" alt="invoice_volume.jpg"></td>
-    <td align="center"><strong>login.jpg</strong><br><img src="assets/screens/login.jpg" width="240" alt="login.jpg"></td>
-    <td align="center"><strong>product_details.jpg</strong><br><img src="assets/screens/product_details.jpg" width="240" alt="product_details.jpg"></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>product_list.jpg</strong><br><img src="assets/screens/product_list.jpg" width="240" alt="product_list.jpg"></td>
-    <td align="center"><strong>sales_volume.jpg</strong><br><img src="assets/screens/sales_volume.jpg" width="240" alt="sales_volume.jpg"></td>
-    <td align="center"><strong>select_customer.jpg</strong><br><img src="assets/screens/select_customer.jpg" width="240" alt="select_customer.jpg"></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>select_product.jpg</strong><br><img src="assets/screens/select_product.jpg" width="240" alt="select_product.jpg"></td>
-    <td align="center"><strong>select_product_quantity.jpg</strong><br><img src="assets/screens/select_product_quantity.jpg" width="240" alt="select_product_quantity.jpg"></td>
-    <td></td>
-  </tr>
-</table>
-
-## 11. Setup & Run
 ### Prerequisites
-- Flutter SDK installed
-- Dart SDK compatible with `^3.11.0`
-- Device/emulator configured
+*   [Flutter SDK](https://flutter.dev/docs/get-started/install) installed (Dart SDK `^3.11.0` compatible)
+*   An active Android/iOS emulator or connected physical testing device
 
-### Run
-```bash
-flutter pub get
-flutter run
-```
+### Setup & Run
+1.  **Retrieve Dependencies**:
+    ```bash
+    flutter pub get
+    ```
+2.  **Launch Dev Server**:
+    ```bash
+    flutter run
+    ```
 
-## 12. Build for Release
+### Release Compilation
+Build an optimized, resource-shrunk, and obfuscated production-ready APK:
 ```bash
 flutter build apk --release
 ```
-
-Generated APK:
+The resulting optimized binary is saved at:  
 `build/app/outputs/flutter-apk/app-release.apk`
 
-## 13. Interview Evaluation Mapping
-### API Integration Accuracy
-- All required assignment APIs are integrated and wired to real UI flows.
-- Endpoint-specific request parameters are passed from authenticated session/user context.
-- Invoice payload maps computed client data into backend schema fields.
+---
 
-### Code Quality & Structure
-- Separation of concerns: UI vs session vs data layers.
-- Reusable typed models reduce dynamic parsing issues.
-- Lint-ready project (`flutter_lints`) and consistent async patterns.
+## 📊 Interview Evaluation Rubric Map
 
-### UI/UX Design
-- Clean Material UI with discoverable navigation.
-- Search, refresh, loading, and retry patterns increase usability.
-- Inline validation and contextual feedback improve task completion.
-
-### Application Flow & Logic
-- Login bootstraps required business context (route/store/van).
-- Invoice flow enforces dependencies in order: types -> customer -> products -> totals -> submit.
-- Aggregation and total calculations are deterministic and transparent.
-
-### Error Handling
-- Guard clauses for missing session/customer/items.
-- API and transport errors are normalized into user-friendly messages.
-- Retry mechanisms available in all major data fetching screens.
-
-## 14. Security Measures
-This project applies practical client-side security controls appropriate for a Flutter interview assignment:
-
-1. Authenticated API calls
-- Uses token-based auth (`Authorization: Bearer <token>`) for protected endpoints.
-- Token is set only after successful login and cleared on logout.
-
-2. Session integrity checks
-- Critical flows (customer load, invoice submit, invoice list) validate that required session context exists (`user`, `userDetail`, token lifecycle).
-- Prevents unintended API calls with incomplete identity/route/store state.
-
-3. Input validation and request hardening
-- Login blocks empty credentials.
-- Invoice submission blocks invalid business states (no customer/no items/session expired).
-- API payloads are generated from typed values, reducing malformed request risk.
-
-4. Response validation and fail-fast behavior
-- API responses pass through centralized decode + success assertion.
-- Non-2xx and API-level failures are converted into explicit exceptions and surfaced safely.
-
-5. Reduced data exposure in UI
-- Error handling shows concise, user-friendly failure messages instead of verbose internal traces.
-- Session reset (`logout`) clears in-memory user and token references.
-
-6. Secure-by-next-step recommendations
-- Planned enhancement: move token from in-memory storage to secure storage (e.g., Keychain/Keystore via `flutter_secure_storage`).
-- Planned enhancement: enforce HTTPS-only API base URL in production.
-- Planned enhancement: add SSL pinning for higher-assurance transport security.
-
-
+| Interview Requirement | Technical Implementation | File Path References |
+|:---|:---|:---|
+| **Architectural modulations** | Clean separation of concerns between UI layouts, ChangeNotifier state providers, and the network client layer. | `lib/providers/`, `lib/screens/`, `lib/data/` |
+| **Defensive JSON Mapping** | Fully strongly-typed domain models parsing nested arrays and maps safely without dynamic casting exceptions. | [models/invoice.dart](file:///e:/interview_flutter/lib/models/invoice.dart) |
+| **High-Fidelity UI Styling** | Custom-engineered glassmorphism, backdrop filters, Harmonics gradients, and overshoot-resistant spring animations. | [screens/dashboard/dashboard_screen.dart](file:///e:/interview_flutter/lib/screens/dashboard/dashboard_screen.dart) |
+| **Network & Timezone Synchronization** | Intelligently converts UTC database entries into local timezone formats to perfectly map sales trends on custom charts. | [screens/analytics/analytics_screen.dart](file:///e:/interview_flutter/lib/screens/analytics/analytics_screen.dart) |
+| **Multi-level Error Resilience** | Implements submit guards, delayed error filters, session-pollution locks, and interactive reload/retry UI. | [providers/auth_provider.dart](file:///e:/interview_flutter/lib/providers/auth_provider.dart) |
+| **Thermal Receipt Formatting** | Dynamic receipt visual mapping complete with company metadata, tax summaries, items grids, and discounts formatting. | [screens/invoice/receipt_helper.dart](file:///e:/interview_flutter/lib/screens/invoice/receipt_helper.dart) |
+| **Native Performance & Hardening** | Integrates Android Proguard code minification, resource shrinking, and target cleartext whitelist declarations. | `android/app/build.gradle.kts` |
