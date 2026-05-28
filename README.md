@@ -12,6 +12,7 @@
   <a href="#-visual-aesthetics--interactive-ux">Aesthetics & UX</a> • 
   <a href="#-key-modules-walkthrough">Key Modules</a> • 
   <a href="#-clean-architecture--modularity">Architecture</a> • 
+  <a href="#-application-screens">Screens</a> • 
   <a href="#-network-resilience--timezone-synchronization">Timezone Sync</a> • 
   <a href="#-robust-exception-handling--race-condition-guards">Error & Race Guards</a> • 
   <a href="#-security-hardening--native-optimization">Security & Hardening</a> • 
@@ -113,6 +114,43 @@ lib/
       select_product_screen.dart  # Product catalog and cart action drawer
       receipt_helper.dart         # Global reusable Thermal Receipt dialog popups
 ```
+
+---
+
+## 📱 Application Screens
+
+<table>
+  <tr>
+    <td align="center"><strong>login.jpg</strong><br><img src="assets/screens/login.jpg" width="240" alt="login.jpg"></td>
+    <td align="center"><strong>dashboard.jpg</strong><br><img src="assets/screens/dashboard.jpg" width="240" alt="dashboard.jpg"></td>
+    <td align="center"><strong>create_invoice.jpg</strong><br><img src="assets/screens/create_invoice.jpg" width="240" alt="create_invoice.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>select_customer.jpg</strong><br><img src="assets/screens/select_customer.jpg" width="240" alt="select_customer.jpg"></td>
+    <td align="center"><strong>select_product.jpg</strong><br><img src="assets/screens/select_product.jpg" width="240" alt="select_product.jpg"></td>
+    <td align="center"><strong>select_product_quantity.jpg</strong><br><img src="assets/screens/select_product_quantity.jpg" width="240" alt="select_product_quantity.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>invoice.jpg</strong><br><img src="assets/screens/invoice.jpg" width="240" alt="invoice.jpg"></td>
+    <td align="center"><strong>invoice_bill.jpg</strong><br><img src="assets/screens/invoice_bill.jpg" width="240" alt="invoice_bill.jpg"></td>
+    <td align="center"><strong>invoice_list.jpg</strong><br><img src="assets/screens/invoice_list.jpg" width="240" alt="invoice_list.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>customer_list.jpg</strong><br><img src="assets/screens/customer_list.jpg" width="240" alt="customer_list.jpg"></td>
+    <td align="center"><strong>customer_details.jpg</strong><br><img src="assets/screens/customer_details.jpg" width="240" alt="customer_details.jpg"></td>
+    <td align="center"><strong>product_list.jpg</strong><br><img src="assets/screens/product_list.jpg" width="240" alt="product_list.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>product_details.jpg</strong><br><img src="assets/screens/product_details.jpg" width="240" alt="product_details.jpg"></td>
+    <td align="center"><strong>analytics_7_days.jpg</strong><br><img src="assets/screens/analytics_7_days.jpg" width="240" alt="analytics_7_days.jpg"></td>
+    <td align="center"><strong>analytics_30_days.jpg</strong><br><img src="assets/screens/analytics_30_days.jpg" width="240" alt="analytics_30_days.jpg"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>sales_volume.jpg</strong><br><img src="assets/screens/sales_volume.jpg" width="240" alt="sales_volume.jpg"></td>
+    <td align="center"><strong>invoice_volume.jpg</strong><br><img src="assets/screens/invoice_volume.jpg" width="240" alt="invoice_volume.jpg"></td>
+    <td></td>
+  </tr>
+</table>
 
 ---
 
