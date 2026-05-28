@@ -25,7 +25,6 @@ This project is interview-focused and demonstrates:
 - [12. Build for Release](#12-build-for-release)
 - [13. Interview Evaluation Mapping](#13-interview-evaluation-mapping)
 - [14. Security Measures](#14-security-measures)
-- [15. Known Limitations / Future Improvements](#15-known-limitations--future-improvements)
 
 ## 1. Project Overview
 The app simulates a field sales executive workflow:
