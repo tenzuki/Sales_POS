@@ -1,4 +1,8 @@
-# Van Sales Flutter App
+# SalesPOS
+
+<p align="center">
+  <img src="assets/app_icon.png" width="140" alt="SalesPOS App Icon">
+</p>
 
 Production-style Flutter implementation of a van-sales workflow with live backend APIs.
 
